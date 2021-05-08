@@ -1,7 +1,33 @@
 import pandas as pd
 raw_csv_data = pd.read_csv('Absenteeism_data.csv')
+raw_csv_data
 df = raw_csv_data.copy()
-df = df.drop(['ID'], axis = 1)
 df
-df_no_age = df.drop(['Age'], axis = 1)
-df_no_age
+pd.options.display.max_columns = None
+pd.options.display.max_rows = None
+display(df)
+df.info()
+
+## Drop 'ID':
+df.drop(['ID','Age'], axis = 1)
+df = df.drop(['ID','Age'], axis = 1)
+df
+
+## 'Reason for Absence':
+df['Reason for Absence'].min()
+df['Reason for Absence'].max()
+pd.unique(df['Reason for Absence'])
+df['Reason for Absence'].unique()
+len(df['Reason for Absence'].unique())
+sorted(df['Reason for Absence'].unique())
+
+## .get_dummies
+reason_columns = pd.get_dummies(df['Reason for Absence'])
+reason_columns
+reason_columns['check'] = reason_columns.sum(axis=1)
+reason_columns
+reason_columns['check'].sum(axis=0)
+reason_columns['check'].unique()
+age_dummies = pd.get_dummies(df['Age'])
+age_dummies
+
