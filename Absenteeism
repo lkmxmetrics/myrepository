@@ -23,11 +23,41 @@ sorted(df['Reason for Absence'].unique())
 
 ## .get_dummies
 reason_columns = pd.get_dummies(df['Reason for Absence'])
-reason_columns
 reason_columns['check'] = reason_columns.sum(axis=1)
-reason_columns
 reason_columns['check'].sum(axis=0)
 reason_columns['check'].unique()
+reason_columns = reason_columns.drop(['check'], axis = 1)
+reason_columns
+
+## age_dummies
+df['Age']
 age_dummies = pd.get_dummies(df['Age'])
 age_dummies
 
+reason_columns = pd.get_dummies(df['Reason for Absence'], drop_first = True)
+reason_columns
+
+## Group the Reasons for Absence:
+df.columns.values
+reason_columns.columns.values
+df = df.drop(['Reason for Absence'], axis = 1)
+df
+reason_columns.loc[:, 1:14].max(axis=1)
+reason_type_1 = reason_columns.loc[:, 1:14].max(axis=1)
+reason_type_2 = reason_columns.loc[:, 15:17].max(axis=1)
+reason_type_3 = reason_columns.loc[:, 18:21].max(axis=1)
+reason_type_4 = reason_columns.loc[:, 22:].max(axis=1)
+
+## Concatenate Columns Values
+df
+df = pd.concat([df, reason_type_1, reason_type_2, reason_type_3, reason_type_4], axis = 1)
+df.columns.values
+column_names = ['Date', 'Transportation Expense', 'Distance to Work', 'Age',
+       'Daily Work Load Average', 'Body Mass Index', 'Education',
+       'Children', 'Pets', 'Absenteeism Time in Hours', 'Reason_1', 'Reason_2', 'Reason_3', 'Reason_4']
+df.columns = column_names
+df.head()
+
+## Concatenate df_no_age and age_dummies
+df_concatenated = pd.concat([df_no_age, age_dummies], axis = 1)
+df_concatenated
